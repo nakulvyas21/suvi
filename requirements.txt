@@ -1,0 +1,25 @@
+# SUVI: Scalable Unified Vector Intelligence
+# IEEE CAI 2026 - Official Requirements
+
+# Core ML
+torch>=2.0.0
+transformers>=4.36.0
+accelerate>=0.25.0
+
+# Quantization & PEFT
+bitsandbytes>=0.41.0
+peft>=0.7.0
+
+# Vision
+diffusers>=0.24.0
+torchvision>=0.15.0
+
+# Data
+datasets>=2.15.0
+Pillow>=10.0.0
+
+# Visualization
+matplotlib>=3.7.0
+
+# Optional: Flash Attention (for faster training)
+# flash-attn>=2.3.0  # Uncomment if supported
