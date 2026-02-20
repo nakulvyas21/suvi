@@ -17,7 +17,7 @@
 
 ## Overview
 
-SUVI eliminates the need for heavy visual encoders (CLIP, SigLIP) in multimodal LLMs by using discrete visual tokens from a pre-trained VAE. This reduces inference memory from >20GB to **13.55GB**, enabling deployment on commodity GPUs like NVIDIA T4.
+SUVI eliminates the need for heavy vision backbones (e.g., CLIP/SigLIP ViT towers) in multimodal LLMs by converting images into discrete token IDs using a frozen Stable Diffusion VAE encoder and a lightweight deterministic discretization (Case B). In our run, this keeps peak allocated VRAM at **~13.55GB (4-bit)**, enabling deployment in the 16GB envelope (e.g., NVIDIA T4).
 
 📖 **Read the full paper**: [heysuvi.com/paper](https://heysuvi.com/paper)
 
@@ -30,9 +30,15 @@ SUVI eliminates the need for heavy visual encoders (CLIP, SigLIP) in multimodal 
 
 | Metric | SUVI | LLaVA-1.5 | InstructBLIP |
 |--------|------|-----------|--------------|
-| Visual Encoder | None (VQ-VAE) | CLIP-ViT-L | ViT-G/14 |
-| Inference VRAM | **13.55 GB** | >20 GB | >22 GB |
+| Visual Component | Frozen SD-VAE tokenizer (no ViT tower) | CLIP-ViT-L | ViT-G/14 |
+| Peak Allocated VRAM (4-bit) | **~13.55 GB** | >20 GB (fp16) | >22 GB (fp16) |
 | Edge Deployable (T4) | ✅ | ❌ | ❌ |
+
+> Note: VRAM is measured as peak allocated GPU memory during active processing (via `torch.cuda.max_memory_allocated()`).
+
+### Case A (Codebook) Variant
+
+Interested in a Case A tokenizer (codebook-based nearest-neighbor quantization) for research/comparison? Contact **Heysuvi Labs** at **nvyas@heysuvi.com**.
 
 ## Installation
 
